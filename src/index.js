@@ -1,10 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import store from "./redux/store";
-import App from "./components/root/App";
+import configureStore from "./redux/store";
+import Root from "./components/Root";
 
 //tutorial repo
 //https://github.com/gaearon/todos/tree/27-updating-data-on-the-server
@@ -12,13 +11,8 @@ import App from "./components/root/App";
 //tutorial videos explanations
 //https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions
 
-ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
-  document.getElementById("root")
-);
+const store = configureStore();
+
+ReactDOM.render(<Root store={store} />, document.getElementById("root"));
 
 reportWebVitals();
