@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducer";
 import { loadState, saveState } from "./localStorage";
+import { throttle } from "lodash";
 
 const preloadedState = loadState();
 
@@ -12,13 +13,14 @@ export const loggerMiddleware = (storeAPI) => (next) => (action) => {
 };
 const store = createStore(rootReducer, preloadedState, applyMiddleware(loggerMiddleware));
 
-store.subscribe(() => {
-  const state = store.getState();
-  saveState({
-    // todos: state.todos,
-    // filters: state.filters,
-    ...state,
-  });
-});
+const numberOfMillisecondsToSaveTodos = 1000;
+store.subscribe(
+  throttle(() => {
+    const state = store.getState();
+    saveState({
+      todos: state.todos,
+    });
+  }, numberOfMillisecondsToSaveTodos)
+);
 
 export default store;
