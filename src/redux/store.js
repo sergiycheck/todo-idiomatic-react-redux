@@ -1,4 +1,7 @@
-import { createStore, applyMiddleware } from "redux";
+import {
+  createStore,
+  // applyMiddleware
+} from "redux";
 import rootReducer from "./reducer";
 import { loadState, saveState } from "./localStorage";
 import { throttle } from "lodash";
@@ -7,7 +10,11 @@ import { loggerMiddleware } from "./middewares";
 const configureStore = () => {
   const preloadedState = loadState();
 
-  const store = createStore(rootReducer, preloadedState, applyMiddleware(loggerMiddleware));
+  // const store = createStore(rootReducer, preloadedState, applyMiddleware(loggerMiddleware));
+
+  //another way to log action
+  const store = createStore(rootReducer, preloadedState);
+  if (process.env.NODE_ENV === "development") store.dispatch = loggerMiddleware(store);
 
   const numberOfMillisecondsToSaveTodos = 1000;
   store.subscribe(

@@ -6,6 +6,7 @@ export const selectTodoEntities = (state) => state.todos.entities;
 export const selectTodos = createSelector(selectTodoEntities, (entities) => Object.values(entities));
 
 export const selectTodoById = (state, todoId) => selectTodoEntities(state)[todoId];
+export const selectTodoIds = (state) => Object.keys(state.todos.entities);
 
 export const getTodosByVisibilityFilter = (state, visibilityFilter) => {
   const allTodos = selectTodos(state);

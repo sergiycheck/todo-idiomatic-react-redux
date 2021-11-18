@@ -12,7 +12,8 @@ import Root from "./components/Root";
 //https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions
 
 //continue
-//https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link
+//https://github.com/gaearon/todos/compare/12-wrapping-dispatch-to-log-actions...13-adding-a-fake-backend
+//https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project
 
 const store = configureStore();
 
