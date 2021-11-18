@@ -9,12 +9,12 @@ const mapStateToProps = (state, { match }) => ({
   todos: getTodosByVisibilityFilter(state, match.params.filter || filterTypes.All),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onTodoClick(id) {
-    dispatch({ type: todoActionTypes.TOGGLE, payload: id });
-  },
-});
+//if the args passed to the callback are passed through to the action creator with the same order
+// we can use shorter configuration object. Config object maps the names of the callback props
+//to the corresponding action creator function
 
-const VisibleTodoList = withRouter(connect(mapStateToProps, mapDispatchToProps)(TodoList));
+export const toggleTodo = (id) => ({ type: todoActionTypes.TOGGLE, payload: id });
+
+const VisibleTodoList = withRouter(connect(mapStateToProps, { onTodoClick: toggleTodo })(TodoList));
 
 export default VisibleTodoList;
