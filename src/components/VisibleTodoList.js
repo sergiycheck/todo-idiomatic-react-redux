@@ -3,8 +3,8 @@ import { getTodosByVisibilityFilter } from "../redux/selectors";
 import { todoActionTypes } from "../redux/actionTypes";
 import TodoList from "./TodoList";
 
-const mapStateToProps = (state) => ({
-  todos: getTodosByVisibilityFilter(state, state.filters.filterType),
+const mapStateToProps = (state, ownProps) => ({
+  todos: getTodosByVisibilityFilter(state, ownProps.filter),
 });
 
 const mapDispatchToProps = (dispatch) => ({
