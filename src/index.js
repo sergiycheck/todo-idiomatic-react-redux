@@ -11,6 +11,9 @@ import Root from "./components/Root";
 //tutorial videos explanations
 //https://egghead.io/lessons/javascript-redux-simplifying-the-arrow-functions
 
+//continue
+//https://egghead.io/lessons/javascript-redux-navigating-with-react-router-link
+
 const store = configureStore();
 
 ReactDOM.render(<Root store={store} />, document.getElementById("root"));
