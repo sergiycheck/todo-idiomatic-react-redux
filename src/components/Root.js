@@ -10,7 +10,8 @@ const Root = ({ store }) => {
       <Provider store={store}>
         <Router>
           <Switch>
-            <Route path="/" component={App}></Route>
+            {/* optional param :filter */}
+            <Route path="/:filter?" component={App}></Route>
           </Switch>
         </Router>
       </Provider>

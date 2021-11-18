@@ -1,39 +1,46 @@
 import React from "react";
-import { connect } from "react-redux";
-import { todoActionTypes, filterTypes } from "../redux/actionTypes";
+import { filterTypes } from "../redux/actionTypes";
 import PropTypes from "prop-types";
+import { Link, useParams } from "react-router-dom";
 import cx from "classnames";
 
-const VisibilityFilter = ({ activeFilter, onFilterClick }) => {
-  const renderedFilters = Object.values(filterTypes).map((filterVal, i) => {
-    return (
-      <span
-        key={`${i}-${filterVal}`}
-        onClick={() => {
-          onFilterClick(filterVal);
-        }}
-        className={cx("filter", activeFilter === filterVal && "filter-active")}
-      >
-        {filterVal}
-      </span>
-    );
-  });
-  return <div className="visibility-filters">{renderedFilters}</div>;
+const VisibilityFilter = () => {
+  return (
+    <div className="visibility-filters">
+      <FilterLink filter={filterTypes.All}>
+        {filterTypes.All}
+        {", "}
+      </FilterLink>
+
+      <FilterLink filter={filterTypes.Active}>
+        {filterTypes.Active}
+        {", "}
+      </FilterLink>
+
+      <FilterLink filter={filterTypes.Completed}>{filterTypes.Completed}</FilterLink>
+    </div>
+  );
 };
 
-VisibilityFilter.propTypes = {
-  activeFilter: PropTypes.string.isRequired,
-  onFilterClick: PropTypes.func.isRequired,
+export const FilterLink = ({ filter, children }) => {
+  const toRes = filter === filterTypes.All ? "/" : filter;
+  const params = useParams();
+  return (
+    <Link
+      to={toRes}
+      className={cx(
+        "filter",
+        ((!params.filter && filter === filterTypes.All) || params.filter === filter) && "filter-active"
+      )}
+    >
+      {children}
+    </Link>
+  );
 };
 
-const mapStateToProps = (state) => ({
-  activeFilter: state.filters.filterType,
-});
+FilterLink.propTypes = {
+  filter: PropTypes.oneOf([...Object.values(filterTypes)]).isRequired,
+  children: PropTypes.node.isRequired,
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  onFilterClick(filterType) {
-    dispatch({ type: todoActionTypes.SET_FILTER, payload: filterType });
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(VisibilityFilter);
+export default VisibilityFilter;
