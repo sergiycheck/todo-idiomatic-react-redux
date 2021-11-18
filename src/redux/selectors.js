@@ -19,3 +19,5 @@ export const getTodosByVisibilityFilter = (state, visibilityFilter) => {
       return allTodos;
   }
 };
+
+//all selectors use todos to get theirs data
