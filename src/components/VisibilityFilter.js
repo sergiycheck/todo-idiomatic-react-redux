@@ -5,21 +5,17 @@ import { Link, useParams } from "react-router-dom";
 import cx from "classnames";
 
 const VisibilityFilter = () => {
-  return (
-    <div className="visibility-filters">
-      <FilterLink filter={filterTypes.All}>
-        {filterTypes.All}
-        {", "}
+  const arrValuesFilterTypes = Object.values(filterTypes);
+  const renderedFilterLinks = arrValuesFilterTypes.map((filter, i) => {
+    return (
+      <FilterLink key={i} filter={filter}>
+        {filter}
+        {i < arrValuesFilterTypes.length - 1 && ", "}
       </FilterLink>
+    );
+  });
 
-      <FilterLink filter={filterTypes.Active}>
-        {filterTypes.Active}
-        {", "}
-      </FilterLink>
-
-      <FilterLink filter={filterTypes.Completed}>{filterTypes.Completed}</FilterLink>
-    </div>
-  );
+  return <div className="visibility-filters">{renderedFilterLinks}</div>;
 };
 
 export const FilterLink = ({ filter, children }) => {
@@ -30,7 +26,9 @@ export const FilterLink = ({ filter, children }) => {
       to={toRes}
       className={cx(
         "filter",
-        ((!params.filter && filter === filterTypes.All) || params.filter === filter) && "filter-active"
+        ((!params.filter && filter === filterTypes.All) ||
+          params.filter === filter) &&
+          "filter-active"
       )}
     >
       {children}
