@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
-import { getTodosByVisibilityFilter } from "../redux/selectors";
+import { getVisibleTodos } from "../redux/reducer";
 import { toggleTodo, filterTypes, fetchTodos } from "../redux/actionsData";
 import TodoList from "./TodoList";
 
@@ -30,7 +30,7 @@ const mapStateToProps = (state, { match }) => {
   if (!Object.values(filterTypes).includes(filter.toLowerCase())) filter = filterTypes.All;
 
   return {
-    todos: getTodosByVisibilityFilter(state, filter),
+    todos: getVisibleTodos(state, filter),
     filter,
   };
 };

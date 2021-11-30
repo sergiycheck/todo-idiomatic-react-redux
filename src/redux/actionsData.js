@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import * as api from "../api/server";
 
 export const todoActionTypes = {
@@ -25,3 +26,9 @@ export const fetchTodos = async (filter) => {
   const response = await api.fetchTodos(filter);
   return receiveTodos(filter, response);
 };
+
+export const addTodo = (text) => ({
+  type: todoActionTypes.ADD,
+  id: nanoid(),
+  text,
+});

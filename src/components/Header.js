@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { todoActionTypes } from "../redux/actionsData";
+import { addTodo } from "../redux/actionsData";
 
 //connect explained
 //https://gist.github.com/gaearon/1d19088790e70ac32ea636c025ba424e
@@ -15,7 +16,7 @@ function Header({ dispatch }) {
         onSubmit={(e) => {
           e.preventDefault();
           if (!text) return;
-          dispatch({ type: todoActionTypes.ADD, payload: text });
+          dispatch(addTodo(text));
           setText("");
         }}
       >
