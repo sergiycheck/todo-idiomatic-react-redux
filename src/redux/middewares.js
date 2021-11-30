@@ -13,17 +13,16 @@ export function devLog(...args) {
   /* eslint-disable no-console */
 }
 
-export const loggerMiddleware = (store) => {
+export const loggerMiddleware = (store) => (next) => {
   /* eslint-disable no-console */
-  const rawDispatch = store.dispatch;
   if (!console.group) {
-    return rawDispatch;
+    return next;
   }
   return (action) => {
     console.group(action.type);
     console.log("%c prev state", "color: gray", store.getState());
     console.log("%c action", "color: blue", action);
-    const returnValue = rawDispatch(action);
+    const returnValue = next(action);
     console.log("%c next state", "color: green", store.getState());
     console.groupEnd(action.type);
     return returnValue;

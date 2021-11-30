@@ -7,14 +7,21 @@ import { loadState, saveState } from "./localStorage";
 import { throttle } from "lodash";
 import { loggerMiddleware } from "./middewares";
 
-const addPromiseSupportToDispatch = (store) => {
-  const rawDispatch = store.dispatch;
-  return (action) => {
-    if (typeof action.then === "function") {
-      return action.then(rawDispatch);
-    }
-    return rawDispatch(action);
-  };
+// implementing currying pattern
+const promiseMiddeware = (store) => (next) => (action) => {
+  if (typeof action.then === "function") {
+    return action.then(next);
+  }
+  return next(action);
+};
+
+const wrapDispatchWithMiddlewares = (store, middlewares) => {
+  middlewares
+    .slice()
+    .reverse()
+    .forEach((middleware) => {
+      store.dispatch = middleware(store)(store.dispatch);
+    });
 };
 
 const configureStore = () => {
@@ -24,8 +31,13 @@ const configureStore = () => {
 
   //another way to log action
   const store = createStore(rootReducer, preloadedState);
-  if (process.env.NODE_ENV === "development") store.dispatch = loggerMiddleware(store);
-  store.dispatch = addPromiseSupportToDispatch(store);
+  const middlewares = [promiseMiddeware];
+
+  if (process.env.NODE_ENV === "development") {
+    middlewares.push(loggerMiddleware);
+  }
+
+  wrapDispatchWithMiddlewares(store, middlewares);
 
   const numberOfMillisecondsToSaveTodos = 1000;
   store.subscribe(
