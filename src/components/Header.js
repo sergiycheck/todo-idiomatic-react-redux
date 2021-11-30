@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
-import { todoActionTypes } from "../redux/actionTypes";
+import { todoActionTypes } from "../redux/actionsData";
 
 //connect explained
 //https://gist.github.com/gaearon/1d19088790e70ac32ea636c025ba424e

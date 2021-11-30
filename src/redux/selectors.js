@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { filterTypes } from "./actionTypes";
+import { filterTypes } from "./actionsData";
 
 export const selectTodoEntities = (state) => state.todos.entities;
 

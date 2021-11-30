@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 
-import { filterTypes } from "../redux/actionTypes";
+import { filterTypes } from "../redux/actionsData";
 
 const fakeDatabase = {
   todos: [

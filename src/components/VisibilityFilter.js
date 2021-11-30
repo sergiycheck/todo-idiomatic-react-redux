@@ -1,5 +1,5 @@
 import React from "react";
-import { filterTypes } from "../redux/actionTypes";
+import { filterTypes } from "../redux/actionsData";
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import cx from "classnames";
@@ -26,9 +26,7 @@ export const FilterLink = ({ filter, children }) => {
       to={toRes}
       className={cx(
         "filter",
-        ((!params.filter && filter === filterTypes.All) ||
-          params.filter === filter) &&
-          "filter-active"
+        ((!params.filter && filter === filterTypes.All) || params.filter === filter) && "filter-active"
       )}
     >
       {children}
