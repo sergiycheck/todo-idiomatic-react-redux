@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { connect } from "react-redux";
-import { todoActionTypes } from "../redux/actionsData";
 import { addTodo } from "../redux/actionsData";
 
 //connect explained

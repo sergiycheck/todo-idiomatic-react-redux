@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
-import { getVisibleTodos } from "../redux/reducer";
+import { getVisibleTodos } from "../redux/todosSlice";
 import { toggleTodo, filterTypes, fetchTodos } from "../redux/actionsData";
 import TodoList from "./TodoList";
 

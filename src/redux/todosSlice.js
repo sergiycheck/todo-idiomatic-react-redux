@@ -1,62 +1,26 @@
 import { combineReducers } from "redux";
-import { filterTypes, todoActionTypes } from "./actionsData";
+import { filterTypes } from "./actionsData";
+import byId, * as fromById from "./byId";
+import createList, * as fromList from "./createList";
 
-const byId = (state = {}, action) => {
-  switch (action.type) {
-    case todoActionTypes.RECEIVE_TODOS:
-      const nextState = { ...state };
-      const { response } = action;
-      response.forEach((todo) => {
-        nextState[todo.id] = todo;
-      });
-      return nextState;
-    default:
-      return state;
-  }
-};
-
-function switchReturnTyActionType(state, action) {
-  switch (action.type) {
-    case todoActionTypes.RECEIVE_TODOS:
-      return action.response.map((todo) => todo.id);
-    default:
-      return state;
-  }
-}
-
-const allIds = (state = [], action) => {
-  if (action.filter !== filterTypes.All) {
-    return state;
-  }
-
-  return switchReturnTyActionType(state, action);
-};
-
-const activeIds = (state = [], action) => {
-  if (action.filter !== filterTypes.Active) {
-    return state;
-  }
-
-  return switchReturnTyActionType(state, action);
-};
-
-const completedIds = (state = [], action) => {
-  if (action.filter !== filterTypes.Completed) {
-    return state;
-  }
-
-  return switchReturnTyActionType(state, action);
-};
-
-const idsByFilter = combineReducers({
-  all: allIds,
-  active: activeIds,
-  completed: completedIds,
+const listByFilter = combineReducers({
+  all: createList(filterTypes.All),
+  active: createList(filterTypes.Active),
+  completed: createList(filterTypes.Completed),
 });
 
 const todos = combineReducers({
   byId,
-  idsByFilter,
+  listByFilter,
 });
 
 export default todos;
+
+const selectGlobalTodos = (state) => state.todos;
+
+export const getVisibleTodos = (state, visibilityFilter) => {
+  const todos = selectGlobalTodos(state);
+  let filteredTodos = todos.listByFilter[visibilityFilter];
+  const ids = fromList.getIds(filteredTodos);
+  return ids.map((id) => fromById.getTodo(todos.byId, id));
+};
