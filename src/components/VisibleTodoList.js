@@ -3,19 +3,16 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 import { getTodosByVisibilityFilter } from "../redux/selectors";
-import { toggleTodo, filterTypes, receiveTodos } from "../redux/actionsData";
-
-import { fetchTodos } from "../api/server";
+import { toggleTodo, filterTypes, fetchTodos } from "../redux/actionsData";
 import TodoList from "./TodoList";
 
-const VisibleTodoList = ({ todos, filter, toggleTodo, receiveTodos }) => {
+const VisibleTodoList = ({ todos, filter, toggleTodo, fetchTodos }) => {
   useEffect(() => {
     async function fetchData() {
-      const response = await fetchTodos(filter);
-      receiveTodos(filter, response);
+      fetchTodos(filter);
     }
     fetchData();
-  }, [filter, receiveTodos]);
+  }, [filter, fetchTodos]);
   return <TodoList todos={todos} onTodoClick={toggleTodo}></TodoList>;
 };
 
@@ -25,7 +22,7 @@ VisibleTodoList.propTypes = {
   ),
   filter: PropTypes.oneOf([...Object.values(filterTypes)]).isRequired,
   toggleTodo: PropTypes.func.isRequired,
-  receiveTodos: PropTypes.func.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { match }) => {
@@ -42,6 +39,6 @@ const mapStateToProps = (state, { match }) => {
 // we can use shorter configuration object. Config object maps the names of the callback props
 //to the corresponding action creator function
 
-const VisibleTodoListWithRouter = withRouter(connect(mapStateToProps, { toggleTodo, receiveTodos })(VisibleTodoList));
+const VisibleTodoListWithRouter = withRouter(connect(mapStateToProps, { toggleTodo, fetchTodos })(VisibleTodoList));
 
 export default VisibleTodoListWithRouter;

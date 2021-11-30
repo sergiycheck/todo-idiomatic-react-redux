@@ -1,3 +1,5 @@
+import * as api from "../api/server";
+
 export const todoActionTypes = {
   ADD: "ADD",
   TOGGLE: "TOGGLE",
@@ -13,8 +15,13 @@ export const filterTypes = {
 
 export const toggleTodo = (id) => ({ type: todoActionTypes.TOGGLE, payload: id });
 
-export const receiveTodos = (filter, response) => ({
+const receiveTodos = (filter, response) => ({
   type: todoActionTypes.RECEIVE_TODOS,
   filter,
   response,
 });
+
+export const fetchTodos = async (filter) => {
+  const response = await api.fetchTodos(filter);
+  return receiveTodos(filter, response);
+};
