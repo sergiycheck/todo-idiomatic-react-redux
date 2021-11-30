@@ -29,3 +29,11 @@ export const loggerMiddleware = (store) => (next) => {
   };
   /* eslint-disable no-console */
 };
+
+// implementing currying pattern
+export const promiseMiddeware = (store) => (next) => (action) => {
+  if (typeof action.then === "function") {
+    return action.then(next);
+  }
+  return next(action);
+};
