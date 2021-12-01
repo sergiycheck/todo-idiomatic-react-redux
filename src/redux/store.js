@@ -8,7 +8,7 @@ import { throttle } from "lodash";
 import { createLogger } from "redux-logger";
 
 const thunk = (store) => (next) => (action) => {
-  return typeof action === "function" ? action(store.dispatch) : next(action);
+  return typeof action === "function" ? action(store.dispatch, store.getState) : next(action);
 };
 
 const configureStore = () => {

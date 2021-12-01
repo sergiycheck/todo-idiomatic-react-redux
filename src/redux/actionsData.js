@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import * as api from "../api/server";
+import { getIsFetching } from "./todosSlice";
 
 export const todoActionTypes = {
   ADD: "ADD",
@@ -28,7 +29,11 @@ const receiveTodos = (filter, response) => ({
   response,
 });
 
-export const fetchTodos = (filter) => async (dispatch) => {
+export const fetchTodos = (filter) => async (dispatch, getState) => {
+  if (getIsFetching(getState(), filter)) {
+    return;
+  }
+
   dispatch(requestTodos(filter));
 
   const response = await api.fetchTodos(filter);
