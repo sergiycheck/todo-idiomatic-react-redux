@@ -2,13 +2,23 @@ import { combineReducers } from "redux";
 import { filterTypes, todoActionTypes } from "./actionsData";
 
 const createList = (filter) => {
+  const handleToggle = (state, action) => {
+    const { result: toggledId, entities } = action.payload;
+    const { completed } = entities.todos[toggledId];
+
+    const shouldRemove = (completed && filter === "active") || (!completed && filter === "completed");
+
+    return shouldRemove ? state.filter((id) => id !== toggledId) : state;
+  };
+
   const ids = (state = [], action) => {
     switch (action.type) {
       case todoActionTypes.RECEIVE_TODOS:
         return filter === action.filter ? action.payload.result : state;
       case todoActionTypes.ADD:
         return filter !== filterTypes.Completed ? [...state, action.payload.result] : state;
-      //TODO: add  case todoActionTypes.TOGGLE:
+      case todoActionTypes.TOGGLE:
+        return handleToggle(state, action);
       default:
         return state;
     }

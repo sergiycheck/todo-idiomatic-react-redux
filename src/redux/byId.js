@@ -1,4 +1,5 @@
 const byId = (state = {}, action) => {
+  //new version is updated automatically
   if (action.payload) {
     return {
       ...state,
