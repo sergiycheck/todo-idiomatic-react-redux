@@ -30,8 +30,9 @@ const receiveTodos = (filter, response) => ({
 });
 
 export const fetchTodos = (filter) => async (dispatch, getState) => {
-  if (getIsFetching(getState(), filter)) {
-    return;
+  const currentlyProcessingARequest = Boolean(getIsFetching(getState(), filter));
+  if (currentlyProcessingARequest) {
+    return Promise.resolve();
   }
 
   dispatch(requestTodos(filter));

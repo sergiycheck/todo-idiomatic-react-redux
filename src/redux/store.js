@@ -1,15 +1,12 @@
 import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./reducer";
+import { createLogger } from "redux-logger";
+import thunk from "redux-thunk";
+import { throttle } from "lodash";
 import {
   // loadState,
   saveState,
 } from "./localStorage";
-import { throttle } from "lodash";
-import { createLogger } from "redux-logger";
-
-const thunk = (store) => (next) => (action) => {
-  return typeof action === "function" ? action(store.dispatch, store.getState) : next(action);
-};
+import rootReducer from "./reducer";
 
 const configureStore = () => {
   // const preloadedState = loadState();
