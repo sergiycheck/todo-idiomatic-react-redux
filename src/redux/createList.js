@@ -23,7 +23,23 @@ const createList = (filter) => {
       case todoActionTypes.REQUEST_TODOS:
         return true;
       case todoActionTypes.RECEIVE_TODOS:
+      case todoActionTypes.FAIL_TODOS:
         return false;
+      default:
+        return state;
+    }
+  };
+
+  const errorMessage = (state = null, action) => {
+    if (action.filter !== filter) {
+      return state;
+    }
+    switch (action.type) {
+      case todoActionTypes.FAIL_TODOS:
+        return action.message;
+      case todoActionTypes.REQUEST_TODOS:
+      case todoActionTypes.RECEIVE_TODOS:
+        return null;
       default:
         return state;
     }
@@ -32,6 +48,7 @@ const createList = (filter) => {
   return combineReducers({
     ids,
     isFetching,
+    errorMessage,
   });
 };
 
@@ -39,3 +56,4 @@ export default createList;
 
 export const getIds = (state) => state.ids;
 export const getIsFetching = (state) => state.isFetching;
+export const getErrorMessage = (state) => state.errorMessage;

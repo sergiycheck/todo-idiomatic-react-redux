@@ -8,6 +8,7 @@ export const todoActionTypes = {
   SET_FILTER: "SET_FILTER",
   RECEIVE_TODOS: "RECEIVE_TODOS",
   REQUEST_TODOS: "REQUEST_TODOS",
+  FAIL_TODOS: "FAIL_TODOS",
 };
 
 export const filterTypes = {
@@ -18,27 +19,31 @@ export const filterTypes = {
 
 export const toggleTodo = (id) => ({ type: todoActionTypes.TOGGLE, payload: id });
 
-const requestTodos = (filter) => ({
-  type: todoActionTypes.REQUEST_TODOS,
-  filter,
-});
-
-const receiveTodos = (filter, response) => ({
-  type: todoActionTypes.RECEIVE_TODOS,
-  filter,
-  response,
-});
-
 export const fetchTodos = (filter) => async (dispatch, getState) => {
   const currentlyProcessingARequest = Boolean(getIsFetching(getState(), filter));
   if (currentlyProcessingARequest) {
     return Promise.resolve();
   }
 
-  dispatch(requestTodos(filter));
+  dispatch({
+    type: todoActionTypes.REQUEST_TODOS,
+    filter,
+  });
 
-  const response = await api.fetchTodos(filter);
-  return dispatch(receiveTodos(filter, response));
+  try {
+    const response = await api.fetchTodos(filter);
+    return dispatch({
+      type: todoActionTypes.RECEIVE_TODOS,
+      filter,
+      response,
+    });
+  } catch (error) {
+    return dispatch({
+      type: todoActionTypes.FAIL_TODOS,
+      filter,
+      message: error.message || "There an error occured",
+    });
+  }
 };
 
 export const addTodo = (text) => ({

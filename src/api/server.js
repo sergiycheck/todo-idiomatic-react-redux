@@ -30,7 +30,9 @@ const fakeDatabase = {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const fetchTodos = async (filter) => {
-  await delay(5000);
+  await delay(500);
+  if (Math.random() > 0.5) throw new Error("error happend");
+
   switch (filter) {
     case filterTypes.All:
       return fakeDatabase.todos;
