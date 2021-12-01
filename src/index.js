@@ -6,8 +6,8 @@ import configureStore from "./redux/store";
 import Root from "./components/Root";
 
 //continue
-//https://github.com/gaearon/todos/compare/12-wrapping-dispatch-to-log-actions...13-adding-a-fake-backend
-//https://egghead.io/lessons/javascript-redux-adding-a-fake-backend-to-the-project
+//https://egghead.io/lessons/javascript-redux-updating-data-on-the-server
+//https://github.com/gaearon/todos/compare/26-normalizing-json-responses-with-normalizr...27-updating-data-on-the-server
 
 const store = configureStore();
 
