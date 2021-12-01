@@ -1,15 +1,14 @@
 import { combineReducers } from "redux";
-import { todoActionTypes } from "./actionsData";
+import { filterTypes, todoActionTypes } from "./actionsData";
 
 const createList = (filter) => {
   const ids = (state = [], action) => {
-    if (action.filter !== filter) {
-      return state;
-    }
-
     switch (action.type) {
       case todoActionTypes.RECEIVE_TODOS:
-        return action.response.map((todo) => todo.id);
+        return filter === action.filter ? action.response.map((todo) => todo.id) : state;
+      case todoActionTypes.ADD:
+        return filter !== filterTypes.Completed ? [...state, action.payload.id] : state;
+      //TODO: add  case todoActionTypes.TOGGLE:
       default:
         return state;
     }

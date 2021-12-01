@@ -9,6 +9,13 @@ const byId = (state = {}, action) => {
         nextState[todo.id] = todo;
       });
       return nextState;
+    case todoActionTypes.ADD:
+    case todoActionTypes.TOGGLE:
+      return {
+        ...state,
+        [action.payload.id]: action.payload,
+      };
+
     default:
       return state;
   }

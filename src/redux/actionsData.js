@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import * as api from "../api/server";
 import { getIsFetching } from "./todosSlice";
 
@@ -16,8 +15,6 @@ export const filterTypes = {
   Active: "active",
   Completed: "completed",
 };
-
-export const toggleTodo = (id) => ({ type: todoActionTypes.TOGGLE, payload: id });
 
 export const fetchTodos = (filter) => async (dispatch, getState) => {
   const currentlyProcessingARequest = Boolean(getIsFetching(getState(), filter));
@@ -45,9 +42,13 @@ export const fetchTodos = (filter) => async (dispatch, getState) => {
     });
   }
 };
+export const addTodo = (text) => async (dispatch) => {
+  const todo = await api.addTodo(text);
+  dispatch({ type: todoActionTypes.ADD, payload: todo });
+};
 
-export const addTodo = (text) => ({
-  type: todoActionTypes.ADD,
-  id: nanoid(),
-  text,
-});
+export const toggleTodo = (id) => async (dispatch) => {
+  const todo = await api.toggleTodo(id);
+
+  dispatch({ type: todoActionTypes.TOGGLE, payload: todo });
+};

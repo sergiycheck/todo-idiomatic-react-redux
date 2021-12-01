@@ -44,3 +44,25 @@ export const fetchTodos = async (filter) => {
       throw new Error(`Unknown filter ${filter}`);
   }
 };
+
+export const addTodo = async (text) => {
+  await delay(500);
+
+  const newTodo = {
+    id: nanoid(),
+    text,
+    completed: false,
+  };
+
+  fakeDatabase.todos.push(newTodo);
+
+  return fakeDatabase.todos.find((todo) => todo.id === newTodo.id);
+};
+
+export const toggleTodo = async (id) => {
+  await delay(500);
+
+  const todo = fakeDatabase.todos.find((todo) => todo.id === id);
+  todo.completed = !todo.completed;
+  return todo;
+};
