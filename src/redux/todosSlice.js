@@ -24,3 +24,5 @@ export const getVisibleTodos = (state, visibilityFilter) => {
   const ids = fromList.getIds(filteredTodos);
   return ids.map((id) => fromById.getTodo(todos.byId, id));
 };
+
+export const getIsFetching = (state, filter) => fromList.getIsFetching(selectGlobalTodos(state).listByFilter[filter]);

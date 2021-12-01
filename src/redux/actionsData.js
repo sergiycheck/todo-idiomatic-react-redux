@@ -6,6 +6,7 @@ export const todoActionTypes = {
   TOGGLE: "TOGGLE",
   SET_FILTER: "SET_FILTER",
   RECEIVE_TODOS: "RECEIVE_TODOS",
+  REQUEST_TODOS: "REQUEST_TODOS",
 };
 
 export const filterTypes = {
@@ -15,6 +16,11 @@ export const filterTypes = {
 };
 
 export const toggleTodo = (id) => ({ type: todoActionTypes.TOGGLE, payload: id });
+
+export const requestTodos = (filter) => ({
+  type: todoActionTypes.REQUEST_TODOS,
+  filter,
+});
 
 const receiveTodos = (filter, response) => ({
   type: todoActionTypes.RECEIVE_TODOS,
