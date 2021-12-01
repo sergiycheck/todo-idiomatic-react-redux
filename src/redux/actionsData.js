@@ -17,7 +17,7 @@ export const filterTypes = {
 
 export const toggleTodo = (id) => ({ type: todoActionTypes.TOGGLE, payload: id });
 
-export const requestTodos = (filter) => ({
+const requestTodos = (filter) => ({
   type: todoActionTypes.REQUEST_TODOS,
   filter,
 });
@@ -28,9 +28,11 @@ const receiveTodos = (filter, response) => ({
   response,
 });
 
-export const fetchTodos = async (filter) => {
+export const fetchTodos = (filter) => async (dispatch) => {
+  dispatch(requestTodos(filter));
+
   const response = await api.fetchTodos(filter);
-  return receiveTodos(filter, response);
+  return dispatch(receiveTodos(filter, response));
 };
 
 export const addTodo = (text) => ({
