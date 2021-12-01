@@ -1,3 +1,5 @@
+import { normalize } from "normalizr";
+import * as schema from "./schema";
 import * as api from "../api/server";
 import { getIsFetching } from "./todosSlice";
 
@@ -32,7 +34,7 @@ export const fetchTodos = (filter) => async (dispatch, getState) => {
     return dispatch({
       type: todoActionTypes.RECEIVE_TODOS,
       filter,
-      response,
+      payload: normalize(response, schema.arrayOfTodos),
     });
   } catch (error) {
     return dispatch({
@@ -42,13 +44,14 @@ export const fetchTodos = (filter) => async (dispatch, getState) => {
     });
   }
 };
+
 export const addTodo = (text) => async (dispatch) => {
   const todo = await api.addTodo(text);
-  dispatch({ type: todoActionTypes.ADD, payload: todo });
+  dispatch({ type: todoActionTypes.ADD, payload: normalize(todo, schema.todo) });
 };
 
 export const toggleTodo = (id) => async (dispatch) => {
   const todo = await api.toggleTodo(id);
 
-  dispatch({ type: todoActionTypes.TOGGLE, payload: todo });
+  dispatch({ type: todoActionTypes.TOGGLE, payload: normalize(todo, schema.todo) });
 };

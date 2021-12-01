@@ -5,9 +5,9 @@ const createList = (filter) => {
   const ids = (state = [], action) => {
     switch (action.type) {
       case todoActionTypes.RECEIVE_TODOS:
-        return filter === action.filter ? action.response.map((todo) => todo.id) : state;
+        return filter === action.filter ? action.payload.result : state;
       case todoActionTypes.ADD:
-        return filter !== filterTypes.Completed ? [...state, action.payload.id] : state;
+        return filter !== filterTypes.Completed ? [...state, action.payload.result] : state;
       //TODO: add  case todoActionTypes.TOGGLE:
       default:
         return state;
